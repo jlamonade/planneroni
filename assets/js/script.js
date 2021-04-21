@@ -5,6 +5,7 @@ var buttonEls = $("button")
 // STARTING VALUES
 var currentDate = new Date().getDate();
 var currentTime = new Date().getHours();
+console.log(currentTime)
 var events = [];
 
 // FUNCTIONS
@@ -19,10 +20,24 @@ function renderTimeBlock() {
         // BUILD
         containerEl.append(timeBlockEl)
     }
+    checkIfEventPassed()
 }
 
 function checkIfEventPassed() {
-
+    var timeBlocksEls = containerEl.children()
+    console.log(timeBlocksEls)
+    // console.log($(".time-block"))
+    for (var i = 0; i < timeBlocksEls.length; i++) {
+        var timeBlockHour = timeBlocksEls.eq(i).attr("data-hour")
+        if (timeBlockHour > currentTime) {
+            timeBlocksEls.eq(i).addClass("future")
+        } else if (timeBlockHour < currentTime) {
+            timeBlocksEls.eq(i).addClass("past")
+        } else {
+            timeBlocksEls.eq(i).addClass("present")
+        }
+    }
+    
 }
 
 renderTimeBlock()
