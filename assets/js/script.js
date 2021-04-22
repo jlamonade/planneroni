@@ -23,7 +23,7 @@ function renderTimeBlock() {
       moment(timeBlockEl.attr("data-hour"), "h").format("ha")
     );
     var textareaColEl = $("<textarea class='textarea col-8'>");
-    var saveBtnEl = $("<button class='saveBtn col-2'>");
+    var saveBtnEl = $("<button class='saveBtn col-2'>").text("SAVE");
     // BUILD
     timeBlockEl.append(hourColEl).append(textareaColEl).append(saveBtnEl);
     containerEl.append(timeBlockEl);
