@@ -1,11 +1,12 @@
 // DEPENDENCIES
 var containerEl = $(".container")
 var buttonEls = $("button")
+var currentDayEl = $("#currentDay")
 
 // STARTING VALUES
-var currentDate = new Date().getDate();
+var currentDate = moment().format("dddd, MMMM Do YYYY");
 var currentTime = new Date().getHours();
-console.log(currentTime)
+console.log(currentDate)
 var events = [];
 
 // FUNCTIONS
@@ -25,7 +26,6 @@ function renderTimeBlock() {
 
 function checkIfEventPassed() {
     var timeBlocksEls = containerEl.children()
-    console.log(timeBlocksEls)
     // console.log($(".time-block"))
     for (var i = 0; i < timeBlocksEls.length; i++) {
         var timeBlockHour = timeBlocksEls.eq(i).attr("data-hour")
@@ -40,6 +40,11 @@ function checkIfEventPassed() {
     
 }
 
+function renderCurrentDate() {
+    currentDayEl.text(`Today is ${new Date().toDateString()}`)
+}
+
+renderCurrentDate();
 renderTimeBlock()
 // render row elements
     // check if events exist in localstorage
