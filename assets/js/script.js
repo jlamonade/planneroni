@@ -7,18 +7,20 @@ var currentDayEl = $("#currentDay");
 var currentDate = moment().format("dddd, MMMM Do YYYY");
 var currentTime = +moment().format("HH");
 var dateStamp = moment().format("MMDDYY"); // used to make sure events are from same date
-var events = localStorage.getItem(dateStamp) // check if events exist in localstorage
+var events = localStorage.getItem(dateStamp)
   ? JSON.parse(localStorage.getItem(dateStamp))
-  : [];
+  : []; // only takes events from localStorage for the date they were created for
 
 // FUNCTIONS
 function renderTimeBlock() {
   // render row elements
-  for (var i = 9; i < 18; i++) { // render row elements from 9a to 5p
+  $(".container").children().remove();
+  for (var i = 9; i < 18; i++) {
+    // render row elements from 9a to 5p
     // CREATE
     var timeBlockEl = $("<div class='time-block row'>").attr("data-hour", i);
     var hourColEl = $("<div class='hour col-2'>").text(
-      timeBlockEl.attr("data-hour")
+      moment(timeBlockEl.attr("data-hour"), "h").format("ha")
     );
     var textareaColEl = $("<textarea class='textarea col-8'>");
     var saveBtnEl = $("<button class='saveBtn col-2'>");
@@ -30,6 +32,7 @@ function renderTimeBlock() {
 }
 
 function checkIfEventPassed() {
+  // changes the bgcolor of textarea according to time of day
   var timeBlocksEls = containerEl.children();
   for (var i = 0; i < timeBlocksEls.length; i++) {
     var timeBlockHour = timeBlocksEls.eq(i).attr("data-hour");
@@ -48,8 +51,10 @@ function renderCurrentDate() {
 }
 
 function saveEventToArray(event) {
+  // adds event to the corresponding hour/index in the array
   var eventText = $(event.target).parent().children("textarea").val();
   var eventIndex = $(event.target).parent().attr("data-hour");
+  // first hour is 9 so to convert time to index you must take away 9
   events[eventIndex - 9] = eventText;
 }
 
@@ -59,8 +64,9 @@ function saveArrayToLocalStorage() {
 }
 
 function populateTimeBlocksFromArray() {
-  for (var i = 0; i < 10; i++) { 
-    if (events[i]) { // if events exist, populate to time-block
+  for (var i = 0; i < 10; i++) {
+    if (events[i]) {
+      // if events exist, populate to time-block
       $(".time-block").eq(i).children("textarea").val(events[i]);
     }
   }
@@ -71,14 +77,12 @@ function handleSaveBtnClick(event) {
   saveArrayToLocalStorage();
 }
 
-// console.log(events)
+// INIT
 
 renderCurrentDate();
 renderTimeBlock();
 populateTimeBlocksFromArray();
-
-
-
-
-// USER INTERACTIONS
+renderCurrentDate();
+renderTimeBlock();
+populateTimeBlocksFromArray();
 $("button").click(handleSaveBtnClick);
