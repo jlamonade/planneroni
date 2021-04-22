@@ -5,7 +5,7 @@ var currentDayEl = $("#currentDay");
 
 // STARTING VALUES
 var currentDate = moment().format("dddd, MMMM Do YYYY");
-var currentTime = new Date().getHours();
+var currentTime = +moment().format("HH");
 var dateStamp = moment().format("MMDDYY"); // used to make sure events are from same date
 var events = localStorage.getItem(dateStamp) // check if events exist in localstorage
   ? JSON.parse(localStorage.getItem(dateStamp))
@@ -44,7 +44,7 @@ function checkIfEventPassed() {
 }
 
 function renderCurrentDate() {
-  currentDayEl.text(`Today is ${new Date().toDateString()}`);
+  currentDayEl.text(`Today is ${currentDate}`);
 }
 
 function saveEventToArray(event) {
